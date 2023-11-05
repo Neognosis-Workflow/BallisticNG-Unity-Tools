@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 0289c6c94eb461b479d7af4c0b26a0c5
+timeCreated: 1487668420
+licenseType: Pro
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Spire NBP
+  fontNames:
+  - Spire NBP
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -1,0 +1,18 @@
+*.csproj
+Assets/Ignore.meta
+Assets/Ignore/
+Library/
+ProjectSettings/
+obj/
+Logs/
+Fast Play Data/
+Hud Builds/
+Packages/
+UserSettings/
+*.sln
+.idea/
+.vs/
+steam_appid.txt
+Assets/UnityToolSettings.asset
+Assets/UnityToolSettings.asset.meta
+Temp/

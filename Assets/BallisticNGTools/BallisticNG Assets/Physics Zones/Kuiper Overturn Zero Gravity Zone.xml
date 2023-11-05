@@ -1,0 +1,6 @@
+<Zone>
+  <Transform Position="0,0,0" Rotation="0,0,0" Scale="1000,1000,1000" />
+  <General GravityMultiplier="1" TrackAlignmentMultiplier="1.5" GripMultiplier="0.8" AirResistenceMultiplier="0" />
+  <ZeroG Enabled="True" AlignmentMultiplier="15" PitchRotationMultiplier="3" PitchForce="-50" PitchSpeed="6000" />
+  <Spring Enabled="True" Force="-20" MinThreshold="1" MaxThreshold="3" Damping="8" AlignmentMultiplier="1" SpeedMultiplier="20" />
+</Zone>
