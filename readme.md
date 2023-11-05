@@ -1,6 +1,4 @@
-# Installing
-
-## Unity Setup
+# Unity Setup
 
 ### Manual Installation
 Before you begin you will need a copy of Unity 2020.3.5:
@@ -19,7 +17,7 @@ unityhub://2020.3.5f1/8095aa901b9b
 
 Make sure to enable the **Windows Build Support** component before installing if you're running on Linux or MacOS.
 
-## Tools Setup
+# Tools Setup
 
 Create a new Unity 2020.3.5 project and then do one of the following:
 
