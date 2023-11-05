@@ -24,7 +24,7 @@ Create a new Unity 2020.3.5 project and then do one of the following:
 ### Import Package
 The easiest way to install the tools is to import the unity package.
 
-* On the right hand side, under the **Releases* section, select a release you'd like to download.
+* On the right hand side, under the **Releases** section, select a release you'd like to download.
 * On the page that opens, download the **BallisticUnityTools.unitypackage** file.
 * In Unity, with your project open, navigate to ``Assets -> Import Package -> Custom Package`` and then open the the **BallisticUnityTools.unitypackage** file you downloaded.
 
