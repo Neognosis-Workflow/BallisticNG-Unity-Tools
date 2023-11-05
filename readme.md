@@ -1,7 +1,7 @@
 # Unity Setup
+Before you begin, you will need a copy of Unity 2020.3.5:
 
 ### Manual Installation
-Before you begin you will need a copy of Unity 2020.3.5:
 * [For Windows](https://download.unity3d.com/download_unity/8095aa901b9b/Windows64EditorInstaller/UnitySetup64-2020.3.5f1.exe)
 * [For Linux](https://download.unity3d.com/download_unity/8095aa901b9b/LinuxEditorInstaller/Unity-2020.3.5f1.tar.xz)
 * [For MacOS](https://download.unity3d.com/download_unity/8095aa901b9b/MacEditorInstaller/Unity-2020.3.5f1.pkg)
@@ -13,7 +13,7 @@ Before you begin you will need a copy of Unity 2020.3.5:
 ### Unity Hub Installation
 If you have Unity Hub and would prefer to install it through there, copy and paste this link into your web browsers adress bar:
 
-unityhub://2020.3.5f1/8095aa901b9b
+``unityhub://2020.3.5f1/8095aa901b9b``
 
 Make sure to enable the **Windows Build Support** component before installing if you're running on Linux or MacOS.
 
