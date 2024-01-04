@@ -19,6 +19,16 @@ namespace Source.NeoEditorTools.Editor.Importers
             File.WriteAllText(path, luaTemplate.text);
             AssetDatabase.ImportAsset(path);
         }
+        
+        [MenuItem("Assets/Create/Ship Lua Script", false, 0)]
+        public static void CreateShipLuaAsset()
+        {
+            string path = Path.Combine(GetPathForCreate(), "New Ship Lua Script.lua");
+            TextAsset luaTemplate = AssetDatabase.LoadAssetAtPath<TextAsset>("Assets/Templates/Lua Ship Template.lua");
+
+            File.WriteAllText(path, luaTemplate.text);
+            AssetDatabase.ImportAsset(path);
+        }
 
         private static string GetPathForCreate()
         {
