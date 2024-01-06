@@ -5,14 +5,14 @@
 --  reset every lap and decreased when you collide with a wall.
 
 -- Use the Create Variables From Script button in the Lua Runner to be given the following variables:
--- maxSpeed			: The total speed increase as a force (mass*distance/time^2) once all possible speed
---					  pads have been hit. This is the same application as the ships regular max speed stat.
+-- maxSpeed         : The total speed increase as a force (mass*distance/time^2) once all possible speed
+--                    pads have been hit. This is the same application as the ships regular max speed stat.
 
--- maxPadsPerLap	: The number of pads that needs to be hit in a lap to reach the total maximum speed
+-- maxPadsPerLap    : The number of pads that needs to be hit in a lap to reach the total maximum speed
 --                    increase.
 
--- debugPrint		: Whether to log out debug messages to help with tuning the values. You can access logs
---					: in-game by pressing F9 and then opening the logger window.
+-- debugPrint       : Whether to log out debug messages to help with tuning the values. You can access logs
+--                  : in-game by pressing F9 and then opening the logger window.
 
 -----------------------------------------------------------------------------------------------------------
 ---- UNITY VARIABLES --------------------------------------------------------------------------------------

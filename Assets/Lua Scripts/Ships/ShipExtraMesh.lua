@@ -5,16 +5,16 @@
 --  camera views.
 
 -- Use the Create Variables From Script button in the Lua Runner to be given the following variables:
--- rendererObject		: A reference to the gameobject which holds the renderer. This can be any kind of
+-- rendererObject       : A reference to the gameobject which holds the renderer. This can be any kind of
 --                        unity renderer (MeshRenderer, SkinnedMeshRenderer, TrailRenderer, LineRenderer, etc)
 --
--- useShipMaterial		: Whether a material on the renderer will be assigned the ships main material. This can
---						  be used to create additional ship mesh that can respond to ship livery changes.
+-- useShipMaterial      : Whether a material on the renderer will be assigned the ships main material. This can
+--                        be used to create additional ship mesh that can respond to ship livery changes.
 --
--- shipMaterialIndex	: The index of the material that will be replaced with the ships main material.
--- inExternal			: Whether this mesh will be visible in external camera views.
--- inInternal			: Whether this mesh will be visible in the internal camera view.
--- inCockpit			: Whether this mesh will be visible in the cockpit camera view.
+-- shipMaterialIndex    : The index of the material that will be replaced with the ships main material.
+-- inExternal           : Whether this mesh will be visible in external camera views.
+-- inInternal           : Whether this mesh will be visible in the internal camera view.
+-- inCockpit            : Whether this mesh will be visible in the cockpit camera view.
 
 -----------------------------------------------------------------------------------------------------------
 ---- UNITY VARIABLES --------------------------------------------------------------------------------------
