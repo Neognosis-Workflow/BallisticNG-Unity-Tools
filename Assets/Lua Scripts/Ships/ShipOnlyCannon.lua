@@ -5,6 +5,8 @@
 --  currently holding one. The number of bullets and the cooldown between dropping and picking up a new cannon
 --  are customizable.
 
+-- Set Update Tick Rate in Lua Runner to Unlocked!
+
 -- Use the Create Variables From Script button in the Lua Runner to be given the following variables:
 -- bulletCount          : The number of bullets the cannon will have.
 --

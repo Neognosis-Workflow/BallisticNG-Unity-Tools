@@ -4,6 +4,8 @@
 -- This script allows you to attach additional meshes to the ship and have it be lit and toggled in different
 --  camera views.
 
+-- This is a per-frame effect. Set Update Tick Rate in Lua Runner to Unlocked!
+
 -- Use the Create Variables From Script button in the Lua Runner to be given the following variables:
 -- rendererObject       : A reference to the gameobject which holds the renderer. This can be any kind of
 --                        unity renderer (MeshRenderer, SkinnedMeshRenderer, TrailRenderer, LineRenderer, etc)
