@@ -43,10 +43,17 @@ function SetupShipGrip(ship)
 	ship.Settings.MODERN_GRIP_AIR = 3
 	ship.Settings.MODERN_AIRBRAKE_SLIDE = 100
 	ship.Settings.MODERN_AIRBRAKE_TURN = 5
-	ship.Settings.MODERN_AIRBRAKE_GRIP = 4.75
 	ship.Settings.MODERN_AIRBRAKE_DRAG = 2
 	ship.Settings.MODERN_AIRBRAKE_GAIN = 500
 	ship.Settings.MODERN_AIRBRAKE_FALLOFF = 500
+
+	-- airbrake grip is reduced based on the speed class
+	ship.Settings.MODERN_AIRBRAKE_GRIP = 4.75
+	if Race.Speedclass == ESpeedClass:Toxic then
+		ship.Settings.MODERN_AIRBRAKE_GRIP = ship.Settings.MODERN_AIRBRAKE_GRIP * 0.87
+	elseif Race.Speedclass == ESpeedClass:Apex then
+		ship.Settings.MODERN_AIRBRAKE_GRIP = ship.Settings.MODERN_AIRBRAKE_GRIP * 0.92
+	end
 end
 
 -- configures the AI difficulty to function better on drift tracks
