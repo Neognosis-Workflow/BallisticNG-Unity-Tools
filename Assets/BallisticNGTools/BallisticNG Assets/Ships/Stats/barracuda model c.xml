@@ -26,6 +26,7 @@
 <AirbrakeTurn Type="System.Single" Value="10" />
 <AirbrakeGain Type="System.Single" Value="25" />
 <AirbrakeFalloff Type="System.Single" Value="150" />
+<SideshiftStrength Type="System.Single" Value="0.25" />
 <GravityAirbourneForce Type="System.Single" Value="36" />
 <GravityGroundedForce Type="System.Single" Value="8" />
 <GravityWeight Type="System.Single" Value="0.7" />
