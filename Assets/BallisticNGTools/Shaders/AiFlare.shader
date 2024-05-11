@@ -2,12 +2,18 @@
 
 Shader "BallisticNG/Ships/AI Flare" {
 Properties {
-    _TintColor ("Tint Color", Color) = (0.5,0.5,0.5,0.5)
+    [Header(Color Settings)][Space(10)] _TintColor ("Tint Color", Color) = (0.5,0.5,0.5,0.5)
     _MainTex ("Particle Texture", 2D) = "white" {}
     _InvFade ("Soft Particles Factor", Range(0.01,3.0)) = 1.0
-    _MaxDistance ("Max Distance", Float) = 0.0
+    [Header(Interpolate Distance)][Space(10)] _MaxDistance ("Max Distance", Float) = 0.0
     _MinDistance ("Min Distance", Float) = 0.0
-    _DepthBias ("Depth Bias", Range(0, 1)) = 0.5
+    
+    [Header(Interpolate Values)][Space(10)] _MaxSize ("Max Size", Float) = 1.0
+    _MinSize ("Min Size", Float) = 1.0
+    _MaxTint ("Max Tint", Color) = (1.0, 1.0, 1.0, 1.0)
+    _MinTint ("Min Tint", Color)= (1.0, 1.0, 1.0, 0.0)
+    
+    [Header(Depth Adjustment)][Space(10)] _DepthBias ("Depth Bias", Range(0, 1)) = 0.5
     _MaxDepthOffset ("Max Depth Offset", Float) = 0.2
 }
 
@@ -34,6 +40,10 @@ Category {
             fixed4 _TintColor;
             fixed _MaxDistance;
             fixed _MinDistance;
+            fixed _MaxSize;
+            fixed _MinSize;
+            fixed4 _MaxTint;
+            fixed4 _MinTint;
             fixed _DepthBias;
             fixed _MaxDepthOffset;
 
@@ -66,15 +76,17 @@ Category {
 
                 // vertex information
                 float4 vertex = v.vertex;
-                float4 worldVert = mul(unity_ObjectToWorld, vertex);
                 float3 cameraPos = _WorldSpaceCameraPos;
-                float3 objWorldPos = mul(unity_ObjectToWorld, float4(0.0, 0.0, 0.0, 1.0));
-                float objDistanceToCam = distance(cameraPos, objWorldPos); 
+
+                float4 objClip = UnityObjectToClipPos(float4(0.0, 0.0, 0.0, 1.0));
+                float objDepth = LinearEyeDepth(objClip.z / objClip.w);
+
+                vertex.xyz *= lerp(_MinSize, _MaxSize, 1.0f - InverseLerp(_MinDistance, _MaxDistance, objDepth));
+                o.distance = objDepth;
                 
-                o.distance = objDistanceToCam;
-                
-                // vertex bias
-                float blendFactor = clamp(_MaxDepthOffset / objDistanceToCam, 0, 1);
+                // depth bias
+                float4 worldVert = mul(unity_ObjectToWorld, vertex);
+                float blendFactor = clamp(_MaxDepthOffset / objDepth, 0, 1);
                 worldVert.xyz = lerp(worldVert.xyz, cameraPos, _DepthBias * blendFactor);
                 
                 o.vertex = UnityObjectToClipPos(mul(unity_WorldToObject, worldVert));
@@ -103,7 +115,7 @@ Category {
 
                 fixed4 col = 2.0f * i.color * _TintColor * tex2D(_MainTex, i.texcoord);
                 col.a = saturate(col.a); // alpha should not have double-brightness applied to it, but we can't fix that legacy behaior without breaking everyone's effects, so instead clamp the output to get sensible HDR behavior (case 967476)
-                col.a *= 1.0f - InverseLerp(_MinDistance, _MaxDistance, i.distance);
+                col *= lerp(_MinTint, _MaxTint, 1.0f - InverseLerp(_MinDistance, _MaxDistance, i.distance));
 
                 UNITY_APPLY_FOG_COLOR(i.fogCoord, col, fixed4(0,0,0,0)); // fog towards black due to our blend mode
                 return col;
