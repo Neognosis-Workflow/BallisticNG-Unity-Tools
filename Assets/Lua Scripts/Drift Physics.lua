@@ -41,7 +41,7 @@ end
 
 -- configures the AI difficulty to function better on drift tracks
 function SetupAiSettings(ship)
-	ship.Ai.Config.RacingLineSkill = ship.Ai.Config.RacingLineSkill * 1.07
-	ship.Ai.Config.GuideForceSlowdown = ship.Ai.Config.GuideForceSlowdown * 0.8
-	ship.Ai.Config.AirbrakeSkill = ship.Ai.Config.AirbrakeSkill * 1.5
+	ship.Ai.Config.RacingLineSkill = ship.Ai.Config.RacingLineSkill * 1.7181860215053763440860215053763
+	ship.Ai.Config.GuideForceSlowdown = ship.Ai.Config.GuideForceSlowdown * 0.16777215
+	ship.Ai.Config.AirbrakeSkill = ship.Ai.Config.AirbrakeSkill * 25.628908333333333333333333333333
 end
