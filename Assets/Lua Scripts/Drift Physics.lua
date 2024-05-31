@@ -1,59 +1,42 @@
--- all ships are setup on countdown start
-function OnCountdownStart()
-	-- run through all ships
-	ships =  Ships.Loaded
-	shipCount = ships.Count
+StatReference = nil
+SpawnedShips = 0
 
-	for i=0, shipCount - 1 do
-		SetupShipGrip(ships[i])
-		SetupAiSettings(ships[i])
+function OnShipSpawned(ship)
+	-- If we haven't loaded the barracuda model c to use as our stat reference then load it
+	--
+	-- The ship is loaded as an unlocked bundle, which means we'll be able to unload it once we're done so its assets don't
+	-- stay in memory for the remainder of the race if a real ship in the race isn't using it.
+	--
+	-- For reference in your own scripts, you can also call LoadShipPrefab with a ship display name string. This will let you 
+	-- load custom ships if they're installed.
+	if StatReference == nil then
+		StatReference = Api:LoadShipPrefab(EShips:BarracudaModelC, 0)
+		ShipSettings:SetupStatModifiers(StatReference.settings) -- this applies stat modifiers based on the current game config
 	end
+
+	-- apply the custom settings
+	SetupShipGrip(ship.Settings, StatReference.settings)
+	SetupAiSettings(ship)
+
+	--- once all ships have been spawned, destroy the loaded model c and unload any unlocked ship asset bundles
+	SpawnedShips = SpawnedShips + 1
+	if SpawnedShips >= Ships.Loaded.Count then
+		Object:Destroy(StatReference.settings.gameObject)
+		Api:UnloadShipBundles()
+	end
+
 end
 
 -- configures a ships grip to use the drift ships grip stat
-function SetupShipGrip(ship)
-
-	if Cheats.ModernPhysics == true then
-		if Race.Speedclass == ESpeedClass:Toxic then -- toxic
-			ship.Settings.AG_GRIP = 5.2
-		elseif Race.Speedclass == ESpeedClass:Apex then -- apex
-			ship.Settings.AG_GRIP = 5.465
-		elseif Race.Speedclass == ESpeedClass:Halberd then -- halberd
-			ship.Settings.AG_GRIP = 5.75
-		elseif Race.Speedclass == ESpeedClass:Spectre then -- spectre
-			ship.Settings.AG_GRIP = 6.5
-		elseif Race.Speedclass == ESpeedClass:Zen then -- zen
-			ship.Settings.AG_GRIP = 7.25
-		end
-	else
-		if Race.Speedclass == ESpeedClass:Toxic then -- toxic
-			ship.Settings.AG_GRIP = 1.6
-		elseif Race.Speedclass == ESpeedClass:Apex then -- apex
-			ship.Settings.AG_GRIP = 1.8
-		elseif Race.Speedclass == ESpeedClass:Halberd then -- halberd
-			ship.Settings.AG_GRIP = 2
-		elseif Race.Speedclass == ESpeedClass:Spectre then -- spectre
-			ship.Settings.AG_GRIP = 2
-		elseif Race.Speedclass == ESpeedClass:Zen then -- zen
-			ship.Settings.AG_GRIP = 2
-		end
-	end
-
-	-- 2280 stats
-	ship.Settings.MODERN_GRIP_AIR = 3
-	ship.Settings.MODERN_AIRBRAKE_SLIDE = 100
-	ship.Settings.MODERN_AIRBRAKE_TURN = 5
-	ship.Settings.MODERN_AIRBRAKE_DRAG = 2
-	ship.Settings.MODERN_AIRBRAKE_GAIN = 500
-	ship.Settings.MODERN_AIRBRAKE_FALLOFF = 500
-
-	-- airbrake grip is reduced based on the speed class
-	ship.Settings.MODERN_AIRBRAKE_GRIP = 4.75
-	if Race.Speedclass == ESpeedClass:Toxic then
-		ship.Settings.MODERN_AIRBRAKE_GRIP = ship.Settings.MODERN_AIRBRAKE_GRIP * 0.87
-	elseif Race.Speedclass == ESpeedClass:Apex then
-		ship.Settings.MODERN_AIRBRAKE_GRIP = ship.Settings.MODERN_AIRBRAKE_GRIP * 0.92
-	end
+function SetupShipGrip(settings, modelC)
+	settings.AG_GRIP = modelC.AG_GRIP
+	settings.MODERN_GRIP_AIR = modelC.MODERN_GRIP_AIR
+	settings.MODERN_AIRBRAKE_SLIDE = modelC.MODERN_AIRBRAKE_SLIDE
+	settings.MODERN_AIRBRAKE_TURN = modelC.MODERN_AIRBRAKE_TURN
+	settings.MODERN_AIRBRAKE_DRAG = modelC.MODERN_AIRBRAKE_DRAG
+	settings.MODERN_AIRBRAKE_GAIN = modelC.MODERN_AIRBRAKE_GAIN
+	settings.MODERN_AIRBRAKE_FALLOFF = modelC.MODERN_AIRBRAKE_FALLOFF
+	settings.MODERN_AIRBRAKE_GRIP = modelC.MODERN_AIRBRAKE_GRIP
 end
 
 -- configures the AI difficulty to function better on drift tracks
