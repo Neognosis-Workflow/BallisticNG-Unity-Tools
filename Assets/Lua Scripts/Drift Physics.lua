@@ -16,7 +16,11 @@ function OnShipSpawned(ship)
 
 	-- apply the custom settings
 	SetupShipGrip(ship.Settings, StatReference.settings)
-	SetupAiSettings(ship)
+	if Cheats:ModernPhysics ~= true then
+		SetupAiSettings(ship)
+	else
+		SetupAiSettingsModernPhysics(ship)
+	end
 
 	--- once all ships have been spawned, destroy the loaded model c and unload any unlocked ship asset bundles
 	SpawnedShips = SpawnedShips + 1
@@ -31,6 +35,10 @@ end
 function SetupShipGrip(settings, modelC)
 	settings.AG_GRIP = modelC.AG_GRIP
 	settings.MODERN_GRIP_AIR = modelC.MODERN_GRIP_AIR
+	settings.MODERN_AIRBRAKE_SPRING_GAIN = modelC.MODERN_AIRBRAKE_SPRING_GAIN 
+	settings.MODERN_AIRBRAKE_SPRING_FALLOFF = modelC.MODERN_AIRBRAKE_SPRING_FALLOFF
+	settings.MODERN_AIRBRAKE_GRIP_SPRING_GAIN = modelC.MODERN_AIRBRAKE_GRIP_SPRING_GAIN
+	settings.MODERN_AIRBRAKE_GRIP_SPRING_FALLOFF = modelC.MODERN_AIRBRAKE_GRIP_SPRING_FALLOFF
 	settings.MODERN_AIRBRAKE_SLIDE = modelC.MODERN_AIRBRAKE_SLIDE
 	settings.MODERN_AIRBRAKE_TURN = modelC.MODERN_AIRBRAKE_TURN
 	settings.MODERN_AIRBRAKE_DRAG = modelC.MODERN_AIRBRAKE_DRAG
@@ -39,9 +47,15 @@ function SetupShipGrip(settings, modelC)
 	settings.MODERN_AIRBRAKE_GRIP = modelC.MODERN_AIRBRAKE_GRIP
 end
 
--- configures the AI difficulty to function better on drift tracks
+-- configures the AI difficulty to function better on drift tracks with 2159 and floorhugger physics
 function SetupAiSettings(ship)
 	ship.Ai.Config.RacingLineSkill = ship.Ai.Config.RacingLineSkill * 1.7181860215053763440860215053763
 	ship.Ai.Config.GuideForceSlowdown = ship.Ai.Config.GuideForceSlowdown * 0.16777215
 	ship.Ai.Config.AirbrakeSkill = ship.Ai.Config.AirbrakeSkill * 25.628908333333333333333333333333
+end
+
+-- configures the AI difficulty to function better on drift tracks with 2280 physics
+function SetupAiSettingsModernPhysics(ship)
+	ship.Ai.Config.GuideForceSlowdown = ship.Ai.Config.GuideForceSlowdown * 0.16777215
+	ship.Ai.Config.AirbrakeSkill = ship.Ai.Config.AirbrakeSkill * 1.2
 end
