@@ -56,6 +56,7 @@ end
 
 -- configures the AI difficulty to function better on drift tracks with 2280 physics
 function SetupAiSettingsModernPhysics(ship)
+	ship.Ai.Config.RacingLineSkill = ship.Ai.Config.RacingLineSkill * 1.1
 	ship.Ai.Config.GuideForceSlowdown = ship.Ai.Config.GuideForceSlowdown * 0.16777215
 	ship.Ai.Config.AirbrakeSkill = ship.Ai.Config.AirbrakeSkill * 1.2
 end
