@@ -1,0 +1,69 @@
+VisualElement {
+    --colorFocusAction: #286c28;
+    --colorFocusHover: #368636;
+    --colorFocusActive: #1e521e;
+
+    --colorTertiaryAction: #28546c;
+    --colorTertiaryHover: #377191;
+    --colorTertiaryActive: #1e4152;
+}
+
+.height32 {
+    height: 32px;
+}
+
+.height64{
+    height: 64px;
+}
+
+.focused {
+    background-color: var(--colorFocusAction);
+}
+
+.focused:hover{
+    background-color: var(--colorFocusHover);
+}
+
+.focused:active{
+    background-color: var(--colorFocusActive);
+}
+
+.tertiary {
+    background-color: var(--colorTertiaryAction);
+}
+
+.tertiary:hover{
+    background-color: var(--colorTertiaryHover);
+}
+
+.tertiary:active{
+    background-color: var(--colorTertiaryActive);
+}
+
+.pad {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.headerText{
+    font-size: 24px;
+}
+
+.center {
+    -unity-text-align: middle-center;
+}
+
+.windowBody {
+    margin: 10px;
+    flex-grow: 1;
+    flex-direction: column;
+}
+
+.windowContent {
+    flex-grow: 1;
+    flex-direction: column;
+}
+
+.spaceTenPx {
+    margin-top: 10px;
+}

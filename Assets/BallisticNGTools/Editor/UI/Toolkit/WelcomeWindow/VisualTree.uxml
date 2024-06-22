@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<UXML
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="UnityEngine.UIElements"
+        xmlns:editor="UnityEditor.UIElements"
+        xsi:noNamespaceSchemaLocation="../../../../../../UIElementsSchema/UIElements.xsd"
+>
+    <VisualElement class="windowBody">
+        <VisualElement name="MainBodyRect" class="windowContent">
+            <VisualElement class="hLayoutCenter" style="height: 64px; flex-grow: 0;">
+                <Label text="Welcome" class="headerText center" style="height: 64px"/>
+                <Image style="--unity-image: url('Agl Logo.png'); width: 48px; height: 48px; align-self: center;" />
+            </VisualElement>
+            <Label text="Welcome to the BallisticNG Unity Tools, everything you need to start building custom content for the game!"/>
+            
+            <VisualElement class="pad"/>
+            <Button name="btnOpenDocumentation" text="Open Documentation" tooltip="Open the modding documentation website in your web browser." class="height32 focused"/>
+            
+            <!--Create/Example Buttons-->
+            <VisualElement class="pad"/>
+            <Label text="Getting Started" class="headerText"/>
+            <Label text="Open up the example scenes below for a hands on look at setting up content, or start creating your own."/>
+            
+            <Box style="margin-top: 5px;">
+                <Label text="Create" class="center"/>
+                <VisualElement class="hLayoutCenter">
+                    <Button name="btnCreateTrack" text="Create Track" tooltip="Asks for a TRM file and then creates a new track scene from it." class="height32"/>
+                    <Button name="btnCreateShip" text="Create Ship" tooltip="Creates a new scene and configures it for setting up a ship." class="height32"/>
+                </VisualElement>
+            </Box>
+            
+            <Box style="margin-top: 5px;">
+                <Label text="Examples" class="center"/>
+                <VisualElement class="hLayoutCenter">
+                    <Button name="btnExampleTrack" text="Open Example Track" tooltip="Opens an example scene which shows how a track is setup." class="height32 tertiary"/>
+                    <Button name="btnExampleShip" text="Open Example Ship" tooltip="Opens an example scene which shows how a ship is setup." class="height32 tertiary"/>
+                    <Button name="btnExampleSmallVehicle" text="Open Example Small Vehicle" tooltip="Opens an example scene which shows how a small vehicle is setup." class="mediumButton tertiary"/>
+                </VisualElement>
+            </Box>
+            
+            <!--MRU List-->
+            <VisualElement class="pad"/>
+            <Label text="Recent Projects" class="headerText"/>
+            
+            <VisualElement class="hLayoutMru">
+                <Box class="elementMru">
+                    <VisualElement name="mruTrack">
+                    </VisualElement>
+                </Box>
+                
+                <Box class="elementMru">
+                    <VisualElement name="mruShip">
+                    </VisualElement>
+                </Box>
+            </VisualElement>
+        </VisualElement>
+        
+        <VisualElement name="SettingsRect" style="height: 48px">
+            <VisualElement class="pad"/>
+            <Toggle name="tglShowOnStartup" text="Show On Startup" tooltip="Toggle whether this window will be shown every startup." class="showOnStartupToggle"/>
+        </VisualElement>
+    </VisualElement>
+</UXML>

@@ -1,0 +1,24 @@
+.headerTextMru {
+    font-size: 18px;
+    -unity-text-align: middle-center;
+}
+
+.elementMru {
+    width: 45%;
+}
+
+.hLayoutCenter {
+    flex-direction: row;
+    flex-grow: 1;
+    justify-content: center;
+}
+
+.hLayoutMru {
+    flex-direction: row;
+    flex-grow: 1;
+    justify-content: space-around;
+}
+
+.showOnStartupToggle{
+    align-self: flex-end;
+}
