@@ -104,4 +104,4 @@
 <ModernCameraFarSpringHorz Type="System.Single" Value="10" />
 <ModernCameraFarSpringVert Type="System.Single" Value="10" />
 <ModernCameraOffsetZ Type="System.Single" Value="1.05" />
-<ModernCameraOffsetY Type="System.Single" Value="1" />
+<ModernCameraOffsetY Type="System.Single" Value="1.15" />
