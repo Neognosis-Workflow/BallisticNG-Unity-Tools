@@ -17,6 +17,10 @@ If you have Unity Hub and would prefer to install it through there, copy and pas
 
 Make sure to enable the **Windows Build Support** component before installing if you're running on Linux or MacOS.
 
+### Linux Dependencies
+Newer versions of Linux likely do not come shipped with the libicu and libssl libraries that Unity needs to compile code. If you're on a Ubuntu based distribution and finding that the Unity Tools aren't working, please run the `Ubuntu-Modern-Depends.sh` script in the `Linux Scripts` folder.
+If the tools aren't working on a non-ubuntu based distribution, please open an issue.
+
 # Tools Setup
 
 Create a new Unity 2020.3.5 project and then do one of the following:
