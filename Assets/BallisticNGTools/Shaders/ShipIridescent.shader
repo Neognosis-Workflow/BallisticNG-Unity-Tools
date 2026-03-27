@@ -138,7 +138,7 @@
 						col = lerp(col, lerp(float4(iridescentCol, 1.0), float4(1.0, 1.0, 1.0, 1.0), 1 - iridMask) * lerp(_Color, float4(1.0, 1.0, 1.0, 1.0f), 0.4), iridMask);
 
 						float3 reflectDir = -reflect(camDir, normalize(i.cubenormal));
-						fixed4 cube = UNITY_SAMPLE_TEXCUBE(unity_SpecCube0, reflectDir);
+						fixed4 cube = UNITY_SAMPLE_TEXCUBE_LOD(unity_SpecCube0, reflectDir, 0);
 
 						float4 illumCol = tex2D(_Illum, uv) * _IllumIntensity * _IllumCol;
 						col += lerp(illumCol, illumCol * (1.0 - float4(iridescentCol.xyz, 1.0)), _PhyscoBlend);

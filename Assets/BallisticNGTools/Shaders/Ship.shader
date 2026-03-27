@@ -118,7 +118,7 @@ Shader "BallisticNG/CustomShip"
 						float tempAlpha = col.a;
 
 						float3 reflectDir = -reflect(_WorldSpaceCameraPos.xyz - i.vertPos, normalize(i.cubenormal));
-						fixed4 cube = UNITY_SAMPLE_TEXCUBE(unity_SpecCube0, reflectDir);
+						fixed4 cube = UNITY_SAMPLE_TEXCUBE_LOD(unity_SpecCube0, reflectDir, 0);
 						col += tex2D(_Illum, uv) * _IllumIntensity * _IllumCol;
 						col.xyz += DecodeHDR(cube, unity_SpecCube0_HDR) * 0.15f * refCol.rgb;
 						col.a = tempAlpha;

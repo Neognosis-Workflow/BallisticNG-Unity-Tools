@@ -14,6 +14,7 @@
 		_Color("Diffuse Tint", Color) = (1, 1, 1, 1)
 		_ReflectionTint("Reflection Tint", Color) = (1, 1, 1, 1)
 		_IllumIntensity("Illumination Intensity", Range(0, 1)) = 1
+		_ReflectionIntensity("Reflection Intensity", Range(0, 1)) = 1
 		_IllumTint("Illumination Tint", Color) = (1, 1, 1, 1)
 		_FadeDistanceMin("Fade To Color Distance Min", Float) = 50
 		_FadeDistanceMax("Fade To Color Distance Max", Float) = 100
@@ -63,6 +64,10 @@
 				#pragma multi_compile __ _REFLECTION_WORLDSPACE
 				#pragma multi_compile __ _REFLECTION_FROM_DIFFUSE_ALPHA
 
+				#pragma multi_compile __ _LIGHT_FROM_TANGENTS
+				
+				#pragma multi_compile __ _ILLUM_TINT_WITH_VERTEX_COLOR
+				
 				#pragma multi_compile __ _ALLOW_AFFINE_MAPPING
 
 				#pragma multi_compile __ _ANIMATION_UV_NONE _ANIMATION_UV_SCROLL _ANIMATION_UV_JUMP
@@ -90,6 +95,7 @@
 
 				sampler2D _Illum;
 				float _IllumIntensity;
+				float _ReflectionIntensity;
 				float4 _IllumTint;
 
 				#if defined(_REFLECTION_CUBE)
@@ -133,11 +139,16 @@
 					half3 distance : TEXCOORD2;
 
 					#if (defined(_REFLECTION_CUBE) || defined(_REFLECTION_PROBE))
+						float3 worldPos   : TEXCOORD5;
 						float3 cubeNormal : TEXCOORD3;
 					#endif
 					half4 screenPos : TEXCOORD4;
 
 					fixed4 vertexColor : COLOR;
+
+					#if defined(_LIGHT_FROM_TANGENTS)
+					fixed4 tangentColor : TANGENT;
+					#endif
 				};
 
 				v2f vert(appdata_full v)
@@ -160,17 +171,8 @@
 
 					/*---Cube Normal---*/
 					#if defined(_REFLECTION_CUBE) || defined(_REFLECTION_PROBE)
-						#if defined(_REFLECTION_WORLDSPACE)
-							float3 worldViewDir = normalize(UnityWorldSpaceViewDir(mul(unity_ObjectToWorld, v.vertex)));
-							float3 worldNormal = UnityObjectToWorldNormal(v.normal);
-
-							float4x4 modelMatrix = unity_ObjectToWorld;
-							o.cubeNormal = mul(modelMatrix, v.vertex).xyz - _WorldSpaceCameraPos;
-						#else
-							float3 normal = mul(unity_ObjectToWorld, v.normal);
-							float3 worldVert = mul(unity_ObjectToWorld, v.vertex);
-							o.cubeNormal = -reflect(_WorldSpaceCameraPos.xyz - worldVert, normalize(normal));
-						#endif	
+						o.worldPos = mul(unity_ObjectToWorld, v.vertex);
+						o.cubeNormal = UnityObjectToWorldNormal(v.normal);
 					#endif
 
 					/*---Uvs---*/
@@ -186,7 +188,12 @@
 					o.screenPos = ComputeScreenPos(o.position);
 
 					/*---Color---*/
-					o.vertexColor = lerp(half4(1, 1, 1, 1), v.color, _Lighting);
+					#if defined(_LIGHT_FROM_TANGENTS)
+						o.tangentColor = lerp(half4(1, 1, 1, 1), v.tangent, _Lighting);
+						o.vertexColor = v.color;
+					#else
+						o.vertexColor = lerp(half4(1, 1, 1, 1), v.color, _Lighting);
+					#endif
 					return o;
 				}
 
@@ -219,13 +226,23 @@
 					float4 outputColor;
 
 					fixed4 diffuseCol = tex2D(_MainTex, uv);
+					
+					#if defined(_LIGHT_FROM_TANGENTS)
+					outputColor = diffuseCol * _Color * i.tangentColor;
+					#else
 					outputColor = diffuseCol * _Color * i.vertexColor;
+					#endif
 
 					#if defined (_RENDER_CUTOUT)
 						clip(diffuseCol.a - _AlphaClip);
 					#endif
 
-					outputColor.rgb += tex2D(_Illum, uv).rgb * _IllumIntensity * _IllumTint;
+					float3 illum = tex2D(_Illum, uv).rgb * _IllumIntensity * _IllumTint;
+					#if defined(_ILLUM_TINT_WITH_VERTEX_COLOR)
+					illum *= i.vertexColor;
+					#endif
+					
+					outputColor.rgb += illum; 
 
 					/*---Reflection Cube---*/
 					#if defined(_REFLECTION_CUBE)
@@ -237,8 +254,15 @@
 							reflectionColor = tex2D(_ReflectionColor, uv);
 						#endif
 
-						fixed4 cube = texCUBE(_ReflectionCube, i.cubeNormal);
-						cube *= reflectionColor * _ReflectionTint;
+						#if defined(_REFLECTION_WORLDSPACE)
+							float3 reflectionDir = normalize(i.worldPos.xyz - _WorldSpaceCameraPos.xyz);
+						#else
+							float3 viewDir = normalize(_WorldSpaceCameraPos.xyz - i.worldPos.xyz);
+							float3 reflectionDir = reflect(-viewDir, i.cubeNormal);
+						#endif	
+					
+						fixed4 cube = texCUBElod(_ReflectionCube, float4(reflectionDir, 0));
+						cube *= reflectionColor * _ReflectionTint * _ReflectionIntensity;
 						outputColor += cube;
 					#endif
 
@@ -252,8 +276,15 @@
 							reflectionColor = tex2D(_ReflectionColor, uv);
 						#endif
 
-						fixed4 cube = UNITY_SAMPLE_TEXCUBE(unity_SpecCube0, i.cubeNormal);
-						cube *= reflectionColor * _ReflectionTint;
+						#if defined(_REFLECTION_WORLDSPACE)
+							float3 reflectionDir = normalize(i.worldPos.xyz - _WorldSpaceCameraPos.xyz);
+						#else
+							float3 viewDir = normalize(_WorldSpaceCameraPos.xyz - i.worldPos.xyz);
+							float3 reflectionDir = reflect(-viewDir, i.cubeNormal);
+						#endif	
+					
+						fixed4 cube = UNITY_SAMPLE_TEXCUBE_LOD(unity_SpecCube0, reflectionDir, 0);
+						cube *= reflectionColor * _ReflectionTint * _ReflectionIntensity;
 						outputColor.rgb += float4(DecodeHDR(cube, unity_SpecCube0_HDR).rgb, 1).rgb;
 					#endif
 

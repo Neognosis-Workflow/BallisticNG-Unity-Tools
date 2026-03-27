@@ -30,6 +30,7 @@
 					{
 						float4 vertex : SV_POSITION;
 						float3 cubenormal : TEXCOORD0;
+						float3 worldPos   : TEXCOORD4;
 						half2 uv : TEXCOORD1;
 
 						float distance : TEXCOORD2;
@@ -85,9 +86,8 @@
 						#endif
 
 						/*---Cubemap Normals---*/
-						float3 normal = mul(unity_ObjectToWorld, v.normal);
-						float3 worldVert = mul(unity_ObjectToWorld, v.vertex);
-						o.cubenormal = -reflect(_WorldSpaceCameraPos.xyz - worldVert, normalize(normal));
+						o.cubenormal = UnityObjectToWorldNormal(v.normal);
+						o.worldPos = mul(unity_ObjectToWorld, v.vertex);
 
 						return o;
 					}
@@ -103,7 +103,9 @@
 							uv = i.uv.xy;
 						#endif
 
-						fixed4 cube = texCUBE(_ReflectionCUbe, i.cubenormal);
+						float3 viewDir = normalize(_WorldSpaceCameraPos.xyz - i.worldPos.xyz);
+						float3 reflectionDir = reflect(-viewDir, i.cubenormal);
+						fixed4 cube = texCUBElod(_ReflectionCUbe, float4(reflectionDir, 0));
 						cube *= tex2D(_ReflectionColor, uv);
 
 						clip(i.distance < _RetroClippingDistance ? 1 : -1);

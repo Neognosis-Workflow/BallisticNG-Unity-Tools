@@ -212,7 +212,7 @@ Shader "BallisticNG/Water"
 				fixed4 waveShine = tex2D(_WaveShineMap, (uv * _WaveSize) + (_SurfaceAnimation.xy * _Time.y));
 				fixed4 waveShine2 = tex2D(_WaveShineMap, (uv * _WaveSize) + (_SurfaceOverlayAnimation.xy * _Time.y));
 				fixed4 background = tex2Dproj(_BackgroundTexture, UNITY_PROJ_COORD(grabUvDist));
-				fixed4 reflectionColor = _ReflectionColor * aBlend * UNITY_SAMPLE_TEXCUBE(unity_SpecCube0, i.cubenormal + (float4(distort2.x, distort2.y, 0.0f, 0.0f) * distortionMap.w));
+				fixed4 reflectionColor = _ReflectionColor * aBlend * UNITY_SAMPLE_TEXCUBE_LOD(unity_SpecCube0, i.cubenormal + (float4(distort2.x, distort2.y, 0.0f, 0.0f) * distortionMap.w), 0);
 
             	#if defined(_FOG_USE_DEPTH_BUFFER) && defined(_ALLOW_EDGE_BLEND)
 				half fogDistance = saturate(_FogDistance * (sceneZ - partZ));
