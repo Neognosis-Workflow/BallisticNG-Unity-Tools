@@ -1,4 +1,5 @@
-﻿using BallisticUnityTools.Placeholders;
+﻿#if UNITY_EDITOR
+using BallisticUnityTools.Placeholders;
 using UnityEngine;
 
 namespace NgData.NameData.Actions
@@ -48,3 +49,4 @@ namespace NgData.NameData.Actions
         }
     }
 }
+#endif

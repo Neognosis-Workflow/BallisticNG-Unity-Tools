@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if UNITY_EDITOR
+using System;
 using BallisticUnityTools.Placeholders;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -69,3 +70,4 @@ namespace NgData.NameData.Actions.Zones
         }
     }
 }
+#endif

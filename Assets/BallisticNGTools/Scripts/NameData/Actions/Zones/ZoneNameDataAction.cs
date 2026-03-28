@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿#if UNITY_EDITOR
+using UnityEngine;
 
 namespace NgData.NameData.Actions.Zones
 {
@@ -103,3 +104,4 @@ namespace NgData.NameData.Actions.Zones
         }
     }
 }
+#endif
