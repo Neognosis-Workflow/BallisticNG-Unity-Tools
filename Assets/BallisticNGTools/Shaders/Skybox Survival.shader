@@ -31,7 +31,6 @@ SubShader {
         struct v2f
         {
             float4 position : SV_POSITION;
-			float gradient : TEXCOORD0;
 			float4 sPos : TEXCOORD1;
 			float4 pos : TEXCOORD2;
         };
@@ -42,14 +41,24 @@ SubShader {
             o.position = UnityObjectToClipPos(v.vertex);
 			o.sPos = ComputeScreenPos(o.position);
 			o.pos = mul(unity_ObjectToWorld, v.vertex);
-
-			o.gradient = clamp((v.vertex.y * 0.5) + 0.8, 0, 1);
             return o;
         }
 
         half4 frag (v2f i) : SV_Target
         {
-            half3 col = lerp(half3(0.0, 0.0, 0.0), half3(_SkyTint.r, _SkyTint.g, _SkyTint.b), i.gradient);
+        	// compute gradient on sphere
+        	float2 screenUv = i.sPos.xy / i.sPos.w;
+        	float2 nc = screenUv * 2.0f - 1.0f;
+
+        	float4 clipPos = float4(nc, 1.0f, 1.0f);
+        	float4 viewPos = mul(unity_CameraInvProjection, clipPos);
+        	float3 viewDir = normalize(viewPos.xyz / viewPos.w);
+        	float3 worldDir = mul((float3x3)unity_MatrixInvV, viewDir);
+
+        	float gradientDot = (dot(normalize(worldDir), float3(0, 1, 0)) * 0.5f) + 0.8f;
+        	float gradient = saturate(gradientDot);
+        	
+            half3 col = lerp(half3(0.0, 0.0, 0.0), half3(_SkyTint.r, _SkyTint.g, _SkyTint.b), gradient);
 
 			fixed lineSize = _ScreenParams.y*0.005;
 			float displacement = (_Time.y * 50)%_ScreenParams.y;
