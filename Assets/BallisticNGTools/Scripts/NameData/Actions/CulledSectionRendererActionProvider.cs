@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿#if UNITY_EDITOR
+using System.Collections.Generic;
 using System.Linq;
 using BallisticUnityTools.TrackTools.SectionRendering;
 using UnityEngine;
@@ -25,3 +26,4 @@ namespace NgData.NameData.Actions
         }
     }
 }
+#endif
