@@ -18,3 +18,4 @@ Assets/UnityToolSettings.asset.meta
 Temp/
 shipmru.json
 trackmru.json
+*.DotSettings
